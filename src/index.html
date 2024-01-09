@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Test Page</title>
     <script src="https://unpkg.com/typescript@4.5.4/lib/typescriptServices.js"></script>
+    <script>
+        window.onload = function () {
+            fetch('app.ts')
+                .then(response => response.text())
+                .then(data => {
+                    const result = ts.transpileModule(data, { compilerOptions: { module: ts.ModuleKind.CommonJS } });
+                    const script = document.createElement('script');
+                    script.textContent = result.outputText;
+                    document.body.appendChild(script);
+                });
+        };
+    </script>
+    <style>
+        code {
+            background: #ddd;
+            border-radius: 5px;
+            padding: 2px 4px;
+        }
+    </style>
 </head>
+
 <body>
     <div id="projectList"></div>
     <div>
@@ -12,7 +33,6 @@
         <button id="saveButton">Save</button>
     </div>
     <div id="backendData"></div>
-
-    <script src="app.ts"></script>
 </body>
+
 </html>
